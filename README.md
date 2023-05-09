@@ -1,38 +1,98 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
+ReactJS
+Criar um projeto
+npx create-next-app@latest nome-projeto
+Instalar o bootstrap
+npm install react-bootstrap bootstrap
+Axios para API
+npm i axios
+Iniciar o projeto
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Base do código
+import React from "react";
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+const index = () => {
+  return <div>index</div>;
+};
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+export default index;
+rafce
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Componentes
+pages/index.jsx
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+import React from "react";
+import Cabecalho from "../components/Cabecalho";
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+const Home = () => {
+  return (
+    <div>
+      <Cabecalho />
+    </div>
+  );
+};
 
-## Learn More
+export default Home;
+componentes/Cabecalho.jsx
 
-To learn more about Next.js, take a look at the following resources:
+import React from "react";
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+const Cabecalho = () => {
+  return <div>Cabeçalho</div>;
+};
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+export default Cabecalho;
+Componentes com Props
+Componente pai
+const Pagina = (props) => {
+  return (
+    <>
+      <Cabecalho />
+      <div className="bg-secondary py-3 text-white text-center mb-3">
+        <Container>
+          <h1>{props.titulo}</h1>
+        </Container>
+      </div>
 
-## Deploy on Vercel
+      {props.children}
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+      <div
+        style={{ width: "100%" }}
+        className="bg-secondary position-fixed bottom-0 py-3 text-white text-center"
+      >
+        <p>Todos os direitos reservados®</p>
+      </div>
+    </>
+  );
+};
+Componente filho
+const Home = () => {
+  return (
+    <>
+      <Pagina titulo="Página Inicial">
+        <Container>
+          <h1>Hello World</h1>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li>4</li>
+        </Container>
+      </Pagina>
+    </>
+  );
+};
+Map
+{
+  carros.map((carro, index) => <p key={index}>{carro}</p>);
+}
+getServerSideProps
+Substitui o uso do useEffect
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+export async function getServerSideProps(context) {
+  const resultado = await apiFilmes.get(
+    `/movie/popular/?api_key=<<suachave>>&language=pt-BR`
+  );
+  const filmes = await resultado.data;
+  return {
+    props: { filmes }, // will be passed to the page component as props
+  };
+}
